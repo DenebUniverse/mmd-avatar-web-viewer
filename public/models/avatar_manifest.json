@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "defaultCharacterId": "hiying",
+  "runtime": "PMX + VMD + VPD + MMDAnimationHelper",
+  "characters": [
+    {
+      "id": "hiying",
+      "label": "绯英",
+      "modelPath": "/models/hiying_pmx/星穹铁道—绯英2.pmx",
+      "assetDir": "/models/hiying_pmx/",
+      "source": "HoYoverse / miHoYo MMD model package uploaded into this project",
+      "default": true
+    },
+    {
+      "id": "qianyeBlade",
+      "label": "千冶·刃（含环）",
+      "modelPath": "/models/qianye_blade_pmx/星穹铁道—千冶·刃2.pmx",
+      "assetDir": "/models/qianye_blade_pmx/",
+      "accessoryModels": [
+        "/models/qianye_blade_pmx/剑.pmx",
+        "/models/qianye_blade_pmx/環.pmx"
+      ],
+      "source": "User-uploaded HoYoverse / miHoYo MMD package: 星穹铁道—千冶·刃（含环）",
+      "usageRulePath": "/models/qianye_blade_pmx/使用规则.txt"
+    }
+  ]
+}

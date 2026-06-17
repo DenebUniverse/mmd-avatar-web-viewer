@@ -1,0 +1,22 @@
+{
+  "name": "mmd-avatar-web-viewer",
+  "version": "0.12.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5173",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5173",
+    "check": "bash scripts/auto_check_all.sh",
+    "prepare-assets": "python3 scripts/scan_public_assets.py",
+    "predev": "python3 scripts/scan_public_assets.py",
+    "prebuild": "python3 scripts/scan_public_assets.py",
+    "serve:dist": "python3 scripts/scan_public_assets.py --target dist && python3 -m http.server 5173 -d dist --bind 127.0.0.1",
+    "sync-dist": "python3 scripts/build_dist_fallback.py"
+  },
+  "dependencies": {
+    "three": "0.170.0",
+    "vite": "5.4.11"
+  },
+  "devDependencies": {}
+}
