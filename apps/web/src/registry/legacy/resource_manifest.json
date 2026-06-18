@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "generatedBy": "scripts/scan_public_assets.py",
+  "runtime": "PMX + VMD + VPD + MMDAnimationHelper",
+  "defaultCharacterId": "hiying",
+  "defaultMotionId": "breath",
+  "defaultPoseId": "defaultStand",
+  "characters": [
+    {
+      "id": "hiying",
+      "label": "绯英",
+      "modelPath": "/models/hiying_pmx/星穹铁道—绯英2.pmx",
+      "assetDir": "/models/hiying_pmx/",
+      "source": "HoYoverse / miHoYo MMD model package uploaded into this project",
+      "default": true,
+      "modelUrl": "/models/hiying_pmx/星穹铁道—绯英2.pmx",
+      "origin": "manifest"
+    },
+    {
+      "id": "qianyeBlade",
+      "label": "千冶·刃（含环）",
+      "modelPath": "/models/qianye_blade_pmx/星穹铁道—千冶·刃2.pmx",
+      "assetDir": "/models/qianye_blade_pmx/",
+      "accessoryModels": [
+        "/models/qianye_blade_pmx/剑.pmx",
+        "/models/qianye_blade_pmx/環.pmx"
+      ],
+      "source": "User-uploaded HoYoverse / miHoYo MMD package: 星穹铁道—千冶·刃（含环）",
+      "usageRulePath": "/models/qianye_blade_pmx/使用规则.txt",
+      "modelUrl": "/models/qianye_blade_pmx/星穹铁道—千冶·刃2.pmx",
+      "origin": "manifest"
+    }
+  ],
+  "motions": [
+    {
+      "id": "idle",
+      "path": "/motions/generated/builtin_idle.vmd",
+      "title": "Idle",
+      "label": "Idle",
+      "origin": "manifest"
+    },
+    {
+      "id": "lovermaxHipSway",
+      "path": "/motions/external/lovermax_tiktok_hip_sway_mihoyo_compatible.vmd",
+      "title": "TikTok風腰振りダンス / lovermax（米哈游角色兼容版）",
+      "sourceUrl": "https://bowlroll.net/file/309048",
+      "uploadedArchive": "TikTok風腰振りダンス.zip",
+      "credit": "lovemax",
+      "readmePath": "/motions/external/lovermax_tiktok_hip_sway_README.txt",
+      "originalPath": "/motions/external/lovermax_tiktok_hip_sway.vmd",
+      "compatibilityNote": "原始 VMD 需要準標準ボーン（グルーブ、腰、上半身2、腕捩、手捩）；兼容版移除了绯英/千冶·刃缺失的指0、涙、舌、部分 morph 关键帧。",
+      "label": "TikTok風腰振りダンス / lovermax（米哈游角色兼容版）",
+      "origin": "manifest"
+    },
+    {
+      "id": "breathConversationOriginal",
+      "path": "/motions/external/breath_original/breath_conversation_0f.vmd",
+      "compatibility": "requires extra bones: 呼吸, 呼吸親1",
+      "label": "breath_conversation_0f",
+      "title": "breath_conversation_0f",
+      "origin": "manifest",
+      "category": "original-breath-package"
+    },
+    {
+      "id": "breathMultistageOriginal",
+      "path": "/motions/external/breath_original/breath_multistage_loop_9415f.vmd",
+      "compatibility": "requires multistage parent bones 親4/親5",
+      "label": "breath_multistage_loop_9415f",
+      "title": "breath_multistage_loop_9415f",
+      "origin": "manifest",
+      "category": "original-breath-package"
+    },
+    {
+      "id": "eyedartBreath",
+      "path": "/motions/external/eyedart_breath.vmd",
+      "title": "アイダート＆呼吸モーション / Eyedart & Breath Motion",
+      "sourceUrl": "https://bowlroll.net/file/231043",
+      "status": "optional; download separately if needed",
+      "label": "アイダート＆呼吸モーション / Eyedart & Breath Motion",
+      "origin": "manifest"
+    },
+    {
+      "id": "peek",
+      "path": "/motions/generated/builtin_peek.vmd",
+      "title": "凑近看",
+      "label": "凑近看",
+      "origin": "manifest"
+    },
+    {
+      "id": "wave",
+      "path": "/motions/generated/builtin_wave.vmd",
+      "title": "挥手",
+      "label": "挥手",
+      "origin": "manifest"
+    },
+    {
+      "id": "shotenTime",
+      "path": "/motions/external/shoten_time_mihoyo_yujie.vmd",
+      "title": "昇天time ⋆⁺₊（mihoyo御姐体型）",
+      "sourceUrl": "https://www.aplaybox.com/details/motion/R6gbFldDGAlL",
+      "uploadedArchive": "昇天time_by_SuperDuper干饭人_64a67d837b5309a70572786ecc4f53b0.zip",
+      "credit": "DokiDoki",
+      "readmePath": "/motions/external/shoten_time_README.txt",
+      "label": "昇天time ⋆⁺₊（mihoyo御姐体型）",
+      "origin": "manifest"
+    },
+    {
+      "id": "goodTea",
+      "path": "/motions/external/good_tea_shake_mihoyo_yujie.vmd",
+      "title": "来杯好茶摇一摇（mihoyo御姐体型）",
+      "sourceUrl": "https://www.aplaybox.com/details/motion/0E1Ex3coeccA",
+      "uploadedArchive": "爻老板_by_SuperDuper干饭人_e6dcb408455d45effcb07091f5b46fc0.zip",
+      "readmePath": "/motions/external/good_tea_shake_README.txt",
+      "label": "来杯好茶摇一摇（mihoyo御姐体型）",
+      "origin": "manifest"
+    },
+    {
+      "id": "breath",
+      "path": "/motions/generated/breath_hiying_compatible.vmd",
+      "title": "标准骨骼兼容呼吸/眨眼循环",
+      "sourceUrl": "uploaded breath motion package, adapted for Hiying standard bones",
+      "label": "标准骨骼兼容呼吸/眨眼循环",
+      "origin": "manifest"
+    },
+    {
+      "id": "jump",
+      "path": "/motions/generated/builtin_jump.vmd",
+      "title": "跳",
+      "label": "跳",
+      "origin": "manifest"
+    },
+    {
+      "id": "breath_original_breath_multistage_0f",
+      "label": "breath_multistage_0f",
+      "title": "breath_multistage_0f",
+      "path": "/motions/external/breath_original/breath_multistage_0f.vmd",
+      "origin": "scanned",
+      "format": "vmd"
+    },
+    {
+      "id": "external_lovermax_tiktok_hip_sway",
+      "label": "lovermax_tiktok_hip_sway",
+      "title": "lovermax_tiktok_hip_sway",
+      "path": "/motions/external/lovermax_tiktok_hip_sway.vmd",
+      "origin": "scanned",
+      "format": "vmd"
+    }
+  ],
+  "poses": [
+    {
+      "id": "defaultStand",
+      "path": "/poses/generated/default_stand.vpd",
+      "title": "默认站姿",
+      "label": "默认站姿",
+      "origin": "manifest"
+    }
+  ],
+  "summary": {
+    "characters": 2,
+    "motions": 13,
+    "poses": 1,
+    "scannedCharacters": 0,
+    "scannedMotions": 2,
+    "scannedPoses": 0
+  }
+}

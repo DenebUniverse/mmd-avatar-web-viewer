@@ -1,0 +1,8 @@
+providers:
+  openrouter:
+    api_key: sk-or-v1-replace-me
+  claude_code:
+    enabled: true
+    working_directory: /absolute/path/to/workspace
+logging:
+  level: debug

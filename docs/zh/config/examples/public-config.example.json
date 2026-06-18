@@ -1,0 +1,17 @@
+{
+  "appName": "AgentStage Web",
+  "apiVersion": "v1",
+  "protocolVersion": "1.0",
+  "assetBaseUrl": "/assets",
+  "features": {
+    "chat": true,
+    "voiceInput": true,
+    "voiceOutput": true,
+    "debugPanel": true
+  },
+  "voice": {
+    "sttProvider": "browser",
+    "ttsProvider": "browser",
+    "language": "zh-CN"
+  }
+}

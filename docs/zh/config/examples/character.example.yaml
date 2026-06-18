@@ -1,0 +1,17 @@
+schema_version: 1
+id: hiying
+name: 绯英
+model:
+  type: pmx
+  url: /assets/models/hiying/model.pmx
+defaults:
+  motion_id: breath
+  pose_id: default_stand
+voice:
+  language: zh-CN
+  rate: 1.0
+  pitch: 1.0
+agent_context:
+  soul: ./Soul.md
+  skills_dir: ./skills
+  initial_memory_dir: ./memory

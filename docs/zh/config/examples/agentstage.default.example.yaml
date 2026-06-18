@@ -1,0 +1,46 @@
+schema_version: 1
+app:
+  name: AgentStage Web
+  environment: development
+server:
+  host: 127.0.0.1
+  port: 8787
+  api_prefix: /api/v1
+web:
+  asset_base_url: /assets
+  debug_panel: true
+llm:
+  default_provider: openrouter
+  request_timeout_ms: 120000
+  max_output_tokens: 512
+  temperature: 0.8
+providers:
+  openrouter:
+    enabled: true
+    base_url: https://openrouter.ai/api/v1
+    api_key: ""
+    chat_model: google/gemma-4-26b-a4b-it:free
+    fallback_models:
+      - openrouter/free
+  claude_code:
+    enabled: false
+    command: claude
+    working_directory: ./workspace
+voice:
+  stt:
+    provider: browser
+    language: zh-CN
+  tts:
+    provider: browser
+    language: zh-CN
+    rate: 1.0
+    pitch: 1.0
+    volume: 1.0
+assets:
+  root_dir: ./assets
+  public_url_prefix: /assets
+characters:
+  root_dir: ./characters
+  default_character_id: hiying
+storage:
+  data_dir: ./data
