@@ -55,3 +55,7 @@ architecture/README.md
 ```
 
 开发具体模块时，直接进入与代码路径同名的文档目录。
+
+## 4. 开发状态
+
+已落地成果与变更记录见 [CHANGELOG.md](./CHANGELOG.md)。

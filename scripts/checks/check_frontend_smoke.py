@@ -46,15 +46,33 @@ export class OrbitControls { constructor(){ this.target = new Vector3(); this.en
 
 runner = r'''
 class FakeClassList { constructor() { this.s = new Set(); } toggle(n, f) { if (f === undefined ? !this.s.has(n) : f) this.s.add(n); else this.s.delete(n); } add(n){ this.s.add(n); } contains(n){ return this.s.has(n); } }
-class FakeEl { constructor(id) { this.id = id; this.textContent = ''; this.value = ''; this.style = {}; this.listeners = {}; this.children = []; this.dataset = {}; this.classList = new FakeClassList(); } appendChild(c){ this.children.push(c); if (!this.value && c.value) this.value = c.value; return c; } addEventListener(t, fn){ this.listeners[t] = fn; } click(){ this.listeners.click?.({ type: 'click' }); } setAttribute(k, v){ this[k] = v; } getBoundingClientRect(){ return this.id === 'stage' ? { width: 1200, height: 760 } : { width: 380, height: 760 }; } }
-const ids = ['app','sidebar','panel','collapseBtn','openPanelBtn','openChatPanelBtn','stage','avatar','status','characterSelect','motionSelect','poseSelect','playSelectedMotionBtn','reloadManifestBtn','applySelectedPoseBtn','breathBtn','idleBtn','neutralBtn','happyBtn','tsundereBtn','troubledBtn','faceModeBtn','lipModeBtn','jumpBtn','waveBtn','peekBtn','eyedartBtn','breathOriginalBtn','shotenTimeBtn','goodTeaBtn','lovermaxBtn','poseBtn','resetBtn','frameBtn','speakBtn','micBtn','textBox','chatPanel','collapseChatBtn','chatBackBtn','chatInput','chatSendBtn','chatStopBtn','chatAttachBtn','chatModeBtn'];
+class FakeEl { constructor(id) { this.id = id; this.textContent = ''; this.value = ''; this.style = {}; this.listeners = {}; this.children = []; this.dataset = {}; this.classList = new FakeClassList(); } appendChild(c){ this.children.push(c); if (!this.value && c.value) this.value = c.value; return c; } replaceChildren(){ this.children = []; } addEventListener(t, fn){ this.listeners[t] = fn; } click(){ this.listeners.click?.({ type: 'click' }); } setAttribute(k, v){ this[k] = v; } getBoundingClientRect(){ return this.id === 'stage' ? { width: 1200, height: 760 } : { width: 380, height: 760 }; } }
+const ids = ['app','sidebar','panel','collapseBtn','openPanelBtn','openChatPanelBtn','stage','avatar','status','characterSelect','voiceSelect','lipSourceSelect','breathBtn','idleBtn','neutralBtn','happyBtn','tsundereBtn','troubledBtn','faceModeBtn','jumpBtn','waveBtn','peekBtn','eyedartBtn','breathOriginalBtn','shotenTimeBtn','goodTeaBtn','lovermaxBtn','poseBtn','resetBtn','frameBtn','chatPanel','collapseChatBtn','chatBackBtn','chatInput','chatSendBtn','chatStopBtn','chatModeBtn','chatManageBtn','chatManageBar','chatNewSessionBtn','chatSessionList','chatMessageList','chatThreadTitle','chatStatusText'];
 const els = Object.fromEntries(ids.map(id => [id, new FakeEl(id)]));
 const sessionItems = [new FakeEl('session1'), new FakeEl('session2')];
 els.status.textContent = '初始化中…';
 globalThis.window = globalThis;
 globalThis.document = { body: new FakeEl('body'), querySelector(sel) { return sel.startsWith('#') ? (els[sel.slice(1)] || null) : null; }, querySelectorAll(sel) { return sel === '[data-chat-session]' ? sessionItems : []; }, createElement(tag) { return new FakeEl(tag); } };
 globalThis.location = { search: '' };
-globalThis.fetch = async () => ({ ok: true, json: async () => ({ schema: 2, defaultCharacterId: 'hiying', defaultMotionId: 'breath', characters: [{ id: 'hiying', label: '绯英', modelPath: '/assets/models/hiying_pmx/星穹铁道—绯英2.pmx', origin: 'manifest' }, { id: 'qianyeBlade', label: '千冶·刃（含环）', modelPath: '/assets/models/qianye_blade_pmx/星穹铁道—千冶·刃2.pmx', origin: 'manifest' }], motions: [{ id: 'breath', label: '呼吸', path: '/assets/motions/generated/breath_hiying_compatible.vmd', origin: 'manifest' }, { id: 'wave', label: '挥手', path: '/assets/motions/generated/builtin_wave.vmd', origin: 'manifest' }], poses: [{ id: 'defaultStand', label: '默认站姿', path: '/assets/poses/generated/default_stand.vpd', origin: 'manifest' }], summary: { characters: 2, motions: 2, poses: 1 } }) });
+const manifest = { schema: 2, defaultCharacterId: 'hiying', defaultMotionId: 'breath', characters: [{ id: 'hiying', label: '绯英', modelPath: '/assets/models/hiying_pmx/星穹铁道—绯英2.pmx', origin: 'manifest' }, { id: 'qianyeBlade', label: '千冶·刃（含环）', modelPath: '/assets/models/qianye_blade_pmx/星穹铁道—千冶·刃2.pmx', origin: 'manifest' }], motions: [{ id: 'breath', label: '呼吸', path: '/assets/motions/generated/breath_hiying_compatible.vmd', origin: 'manifest' }, { id: 'wave', label: '挥手', path: '/assets/motions/generated/builtin_wave.vmd', origin: 'manifest' }], poses: [{ id: 'defaultStand', label: '默认站姿', path: '/assets/poses/generated/default_stand.vpd', origin: 'manifest' }], summary: { characters: 2, motions: 2, poses: 1 } };
+globalThis.__postedMessage = null;
+globalThis.__postedMessageSessionId = null;
+globalThis.fetch = async (url, options = {}) => {
+  const path = String(url);
+  if (path.includes('/api/v1/config/public')) return { ok: true, json: async () => ({ apiVersion: 'v1', defaultPermissionMode: 'acceptEdits' }) };
+  if (path.includes('/api/v1/health')) return { ok: true, json: async () => ({ ok: true, claudeAvailable: true }) };
+  if (path.endsWith('/api/v1/sessions') && options.method === 'POST') return { ok: true, status: 201, json: async () => ({ id: 'new-session', title: '新会话', updatedAt: '2026-06-18T09:01:00.000Z', messages: [], permissionMode: 'acceptEdits' }) };
+  if (path.endsWith('/api/v1/sessions')) return { ok: true, json: async () => ([{ id: 's1', title: '现有任务', updatedAt: '2026-06-18T09:00:00.000Z', running: false }]) };
+  if (path.includes('/api/v1/sessions/') && path.includes('/messages')) {
+    globalThis.__postedMessageSessionId = path.match(/\/sessions\/([^/]+)\/messages/)?.[1] || null;
+    globalThis.__postedMessage = JSON.parse(options.body);
+    return new Promise((resolve) => setTimeout(() => resolve({ ok: true, status: 202, json: async () => ({ runId: 'r1', session: { id: 's1', title: '现有任务', messages: [] } }) }), 500));
+  }
+  if (path.includes('/api/v1/sessions/s1')) return { ok: true, json: async () => ({ id: 's1', title: '现有任务', updatedAt: '2026-06-18T09:00:00.000Z', messages: [], permissionMode: 'acceptEdits' }) };
+  if (path.includes('/api/v1/sessions/new-session')) return { ok: true, json: async () => ({ id: 'new-session', title: '新会话', updatedAt: '2026-06-18T09:01:00.000Z', messages: [], permissionMode: 'acceptEdits' }) };
+  return { ok: true, json: async () => manifest };
+};
+globalThis.EventSource = class { constructor(){ this.listeners = {}; } addEventListener(name, fn){ this.listeners[name] = fn; } close(){} };
 Object.defineProperty(globalThis, 'navigator', { value: { mediaDevices: { getUserMedia: async () => ({}) } }, configurable: true });
 globalThis.devicePixelRatio = 1;
 globalThis.requestAnimationFrame = (fn) => setTimeout(fn, 5);
@@ -74,6 +92,14 @@ sessionItems[0].click();
 const messagesView = els.chatPanel.dataset.view === 'messages';
 els.chatBackBtn.click();
 const sessionsView = els.chatPanel.dataset.view === 'sessions';
+els.chatInput.value = '立即切换测试';
+els.chatInput.listeners.input?.({ type: 'input' });
+els.chatSendBtn.click();
+const immediateSendMessagesView = els.chatPanel.dataset.view === 'messages';
+const optimisticMessageRendered = els.chatMessageList.children.some((child) => child.children?.some((p) => p.textContent === '立即切换测试'));
+await new Promise(r => setTimeout(r, 20));
+const clientMessageIdPosted = typeof globalThis.__postedMessage?.clientMessageId === 'string' && globalThis.__postedMessage.clientMessageId.startsWith('client-');
+const listComposerCreatesNewSession = globalThis.__postedMessageSessionId === 'new-session';
 const diag = globalThis.__avatarDiagnostics || {};
 const result = {
   booted: globalThis.__mmdAvatarViewerBooted === true,
@@ -82,12 +108,16 @@ const result = {
   renderSized: diag.renderSize?.width === 1200 && diag.renderSize?.height === 760,
   characterDefault: diag.characterId === 'hiying',
   characterOptions: els.characterSelect.children.length === 2,
-  motionOptions: els.motionSelect.children.length === 2,
-  poseOptions: els.poseSelect.children.length === 1,
+  motionQuickAction: (() => { try { els.breathBtn.click(); return true; } catch { return false; } })(),
+  poseQuickAction: (() => { try { els.poseBtn.click(); return true; } catch { return false; } })(),
   collapsed,
   chatCollapsed,
   messagesView,
   sessionsView,
+  immediateSendMessagesView,
+  optimisticMessageRendered,
+  clientMessageIdPosted,
+  listComposerCreatesNewSession,
   helperAdded: globalThis.__mmdHelperAdded === true,
   helperUpdated: globalThis.__mmdHelperUpdated === true
 };

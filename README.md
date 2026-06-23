@@ -21,6 +21,10 @@ PMX / PMD 模型 + VMD 动作 + VPD 姿态 + three.js MMDLoader + MMDAnimationHe
 
 ## 快速启动
 
+### 只看角色舞台（不聊天）
+
+不需要任何 API Key，纯前端：
+
 ```bash
 npm install
 npm run assets:scan
@@ -34,6 +38,51 @@ http://127.0.0.1:5173/
 ```
 
 如果 5173 被占用，Vite 会自动使用下一个端口。
+
+### 完整功能（含 ChatPanel 聊天 / 语音）
+
+ChatPanel 通过本地 `apps/server` 接入 Claude Code，再经本地 claude-code-router（CCR）转发到 OpenRouter。需要一次性配置：
+
+```bash
+./install.sh          # 安装依赖、claude CLI、ccr，并生成本地配置
+# 编辑 config/secrets.local.env，填入 OPENROUTER_API_KEY（见下一节）
+./start.sh            # 启动；会自动把 key 同步进 CCR，再拉起前后端
+```
+
+打开 `http://127.0.0.1:5173/`，右侧 ChatPanel 即可对话。
+
+## 配置 API Key（OpenRouter + CCR）
+
+聊天链路是：
+
+```text
+Browser ChatPanel
+  → apps/server（本地，持有 Session/生命周期）
+  → Claude Code CLI
+  → 本地 CCR（127.0.0.1:3457）
+  → OpenRouter API
+```
+
+**唯一需要你手动填的就是 OpenRouter 的 API Key**，填一个地方即可：
+
+1. 去 <https://openrouter.ai> 注册并创建一个 API Key（形如 `sk-or-v1-...`）。
+2. 编辑 `config/secrets.local.env`（首次运行 `./install.sh` 后会自动生成），取消注释并填入：
+
+   ```bash
+   OPENROUTER_API_KEY=sk-or-v1-你的key
+   ```
+
+3. 运行 `./start.sh`。启动脚本会调用 `scripts/setup/ensure-ccr-key.mjs`，自动把这个 key 写进 `~/.claude-code-router/config.json` 的 `openrouter.api_key`。
+
+> 为什么必须同步？CCR 是独立进程，只读自己的 `config.json` 里 `api_key` 的**字面值**，不会展开 `${OPENROUTER_API_KEY}`，也不读 server 的环境变量。所以 `secrets.local.env` 里的 key 由启动脚本写进 CCR config 才会生效——你只需填 `secrets.local.env` 这一个地方。
+
+安全说明：
+
+- `config/secrets.local.env`、`config/*.local.*`、`~/.claude-code-router/config.json` 都不进 Git；
+- API Key 只在本地 server / CCR 之间使用，不会进入浏览器、构建产物或前端 public config；
+- 本项目的 Claude Code 配置（settings/session/日志）隔离在 `./.agentstage/claude-config`，与机器全局 `~/.claude` 互不影响，详见 [docs/zh/architecture/06-claude-code-orchestrator-integration.md](docs/zh/architecture/06-claude-code-orchestrator-integration.md)。
+
+> 默认路由到 OpenRouter 免费模型 `google/gemma-4-31b-it:free`。免费模型可能被上游限流（HTTP 429）；如需稳定，可在 `~/.claude-code-router/config.json` 换成付费模型，或为 OpenRouter 账号充值。
 
 ## 常用命令
 
@@ -51,17 +100,20 @@ npm run check
 
 ```text
 apps/web/                  # 唯一前端入口
+apps/server/               # 本地 REST + SSE server（持有 Session/密钥/Agent 生命周期）
 packages/stage/            # Stage runtime 迁移边界
 packages/characters/       # 资源路径与角色 registry 边界
 packages/core/             # 通用纯函数和领域类型边界
 packages/voice/            # 浏览器语音/口型边界
 packages/protocol/         # 后续 Stage command/event 边界
+packages/orchestrator/     # Claude Code 适配、Session store、run 管理
 assets/models/             # PMX/PMD 与贴图真源
 assets/motions/            # VMD 真源
 assets/poses/              # VPD 真源
 apps/web/src/registry/     # legacy manifest 迁移输入
 .generated/                # 扫描生成产物，不手写
 scripts/assets/            # 资源扫描
+scripts/setup/             # 安装/启动辅助（如 CCR key 同步）
 scripts/checks/            # 迁移后检查
 dist/                      # Vite 构建产物，可删除重建
 ```
@@ -149,17 +201,15 @@ http://127.0.0.1:5173/?obs=1&character=hiying
 
 ## ChatPanel 状态
 
-右侧 `ChatPanel` 本轮只提供禁用态 UI：
+右侧 `ChatPanel` 已接入本地 `apps/server`（Claude Code → CCR → OpenRouter）：
 
 - 可收回和展开；
-- 顶部是工具栏；
-- 中间初始展示 session 列表，点击静态 session 后展示 messages 列表；
-- 底部是禁用输入框；
-- 不发送请求；
-- 不创建 session；
-- 不连接 OpenRouter；
-- 不连接 Claude Code；
-- 不触发 Stage command。
+- 顶部工具栏，中间 session 列表 / messages 列表两态切换；
+- 底部输入框可发送，配置好 API Key（见「配置 API Key」）后可真实对话；
+- 通过 `/api/v1` REST + SSE 与本地 server 通信；浏览器不直接接触 CCR、API Key 或 Claude Code 进程；
+- 语音：控制台「语音」下拉选「机器」可自动朗读助手回复并驱动角色口型；输入框左侧麦克风可语音转文字。详见 [docs/zh/apps/web/05-voice-chat.md](docs/zh/apps/web/05-voice-chat.md)。
+
+未配置 API Key 时，ChatPanel 仍可展开浏览，但发送会因 CCR 无可用 key 而失败。仅看模型舞台不受影响。
 
 ## 检查
 

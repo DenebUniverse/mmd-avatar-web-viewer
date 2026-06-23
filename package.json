@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "npm run assets:scan && npm run dev:web",
+    "dev": "node scripts/dev_all.mjs",
     "dev:web": "vite --config apps/web/vite.config.js --host 127.0.0.1 --port 5173",
+    "dev:server": "node apps/server/src/main.js",
+    "start:all": "bash start.sh",
+    "stop": "bash scripts/clean/kill-services.sh",
     "build": "npm run assets:scan && vite build --config apps/web/vite.config.js",
     "preview": "vite preview --config apps/web/vite.config.js --host 127.0.0.1 --port 5173",
     "check": "bash scripts/checks/auto_check_all.sh",

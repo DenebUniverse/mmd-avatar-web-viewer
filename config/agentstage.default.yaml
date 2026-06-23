@@ -1,0 +1,83 @@
+schema_version: 1
+
+app:
+  name: AgentStage Web
+  environment: development
+
+server:
+  host: 127.0.0.1
+  port: 4310
+  api_prefix: /api/v1
+  public_base_url: http://127.0.0.1:4310
+
+web:
+  host: 127.0.0.1
+  port: 5173
+  asset_base_url: /assets
+  debug_panel: true
+
+agent:
+  default_adapter: claude_code
+  workspace: .
+  permission_mode: auto
+  max_turns: 30
+  max_prompt_chars: 50000
+  enable_bypass_permissions: false
+
+claude_code:
+  enabled: true
+  command: claude
+  output_format: stream-json
+  include_partial_messages: true
+  # 与机器全局 ~/.claude 隔离的配置目录（settings/session/history/日志都落在这里）。
+  # 让本项目的 Claude Code 配置和日志独立于本机其他项目，也不再读取全局 settings.json 的 env 覆盖。
+  config_dir: ./.agentstage/claude-config
+  # 开启后 claude 调试日志写入 <config_dir>/logs/claude-debug.log。
+  debug: false
+  # 写入隔离 settings.json 的 env 块。实测该 env 块的优先级高于 claude 进程继承的环境变量，
+  # 因此可强制 claude 走本地 CCR（→ OpenRouter），不被机器全局 ~/.claude 或 shell 里的 ANTHROPIC_* 覆盖。
+  # 空字符串用于清掉本机可能残留的 glm/官方 key 与模型名，避免泄漏到请求里。
+  env:
+    ANTHROPIC_BASE_URL: "http://127.0.0.1:3457"
+    ANTHROPIC_AUTH_TOKEN: "claude-code-router-local"
+    ANTHROPIC_API_KEY: ""
+    ANTHROPIC_MODEL: ""
+    ANTHROPIC_DEFAULT_OPUS_MODEL: ""
+    ANTHROPIC_DEFAULT_SONNET_MODEL: ""
+    ANTHROPIC_DEFAULT_HAIKU_MODEL: ""
+
+ccr:
+  enabled: true
+  autostart: true
+  required: false
+
+providers:
+  openrouter:
+    enabled: true
+    base_url: https://openrouter.ai/api/v1
+    api_key_env: OPENROUTER_API_KEY
+    chat_model: google/gemma-4-31b-it:free
+    fallback_models:
+      - google/gemma-4-26b-a4b-it:free
+
+voice:
+  stt:
+    provider: browser
+    language: zh-CN
+  tts:
+    provider: browser
+    language: zh-CN
+    rate: 1.0
+    pitch: 1.0
+    volume: 1.0
+
+assets:
+  root_dir: ./assets
+  public_url_prefix: /assets
+
+characters:
+  root_dir: ./characters
+  default_character_id: hiying
+
+storage:
+  data_dir: ./data

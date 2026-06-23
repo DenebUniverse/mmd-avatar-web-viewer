@@ -58,6 +58,37 @@ agent.run.cancelled
 voice.enqueue
 ```
 
+## Agent Message Correlation
+
+前端发送用户消息时生成 `clientMessageId`：
+
+```ts
+interface SendMessageRequest {
+  content: string
+  clientMessageId?: string
+  characterId?: string
+  actorId?: string
+  permissionMode?: 'plan' | 'acceptEdits' | 'auto' | 'dontAsk' | 'bypassPermissions'
+}
+
+interface ChatMessage {
+  id: string
+  clientMessageId?: string
+  role: 'user' | 'assistant'
+  text: string
+  createdAt: string
+  status: 'completed' | 'streaming' | 'error' | 'stopped'
+}
+```
+
+`clientMessageId` 的规则：
+
+- 由 Web 生成；
+- 只用于 optimistic message 与服务端正式 message 的关联；
+- 服务端保存正式 user message 时原样回传；
+- 不作为服务端主键；
+- 客户端不能用 `text` 做 optimistic message 匹配。
+
 ## Tool 预留
 
 V1 默认不注册 `motion`、`pose`、`expression` 给 Agent。未来开放时，Tool 输出先转换为 Protocol Command，再由 Stage 校验执行。

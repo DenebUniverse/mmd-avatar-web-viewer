@@ -1,5 +1,7 @@
 # 全量迁移方案
 
+> 状态说明：本文是早期全量迁移阶段计划，保留用于追溯当时的提交拆分和风险控制，不代表当前运行时行为。当前 ChatPanel、Server、Session、Claude Code Orchestrator 的实际逻辑以 `docs/zh/apps/web/04-chat-panel.md`、`docs/zh/apps/server/01-api-and-sse.md`、`docs/zh/packages/orchestrator/01-lifecycle-and-adapters.md` 和 `docs/zh/architecture/06-claude-code-orchestrator-integration.md` 为准。
+
 本文是当前迁移的执行计划。最新决策：
 
 - 直接完成全量迁移到新目录结构；

@@ -26,8 +26,11 @@ checks = {
     'three column layout exists': all(x in index for x in ['id="sidebar"', 'id="stage"', 'id="chatPanel"']),
     'chat collapsible': all(x in index + main + style for x in ['openChatPanelBtn', 'collapseChatBtn', 'chat-collapsed']),
     'chat has sessions and messages views': all(x in index for x in ['data-view="sessions"', 'data-view-for="sessions"', 'data-view-for="messages"', 'data-chat-session']),
-    'chat composer disabled': all(x in index for x in ['id="chatInput" disabled', 'id="chatSendBtn" type="button" disabled', 'id="chatStopBtn" type="button" disabled']),
-    'chat has no provider/runtime integration': all(x not in main for x in ['OpenRouter', 'Claude', 'EventSource', '/session', '/chat', 'speechSynthesis.speak']),
+    'chat composer connected': all(x in index for x in ['id="chatInput"', 'id="chatSendBtn"', 'id="chatStopBtn"', 'id="chatSessionList"', 'id="chatMessageList"']) and 'id="chatInput" disabled' not in index,
+    'chat uses server protocol': all(x in main for x in ['AGENT_API_PREFIX', 'EventSource', '/sessions', '/events?sessionId=', 'sendAgentPrompt', 'cancelAgentRun']),
+    'server orchestrator exists': all((ROOT / rel).exists() for rel in ['apps/server/src/main.js', 'apps/server/src/config.js', 'packages/orchestrator/index.js']),
+    'private config exists': (ROOT / 'config/agentstage.default.yaml').exists() and (ROOT / 'config/secrets.local.env').exists(),
+    'service scripts exist': all((ROOT / rel).exists() for rel in ['install.sh', 'start.sh', 'scripts/clean/kill-services.sh']),
     'stage-aware sizing exists': all(x in main for x in ['getRenderSize', 'getBoundingClientRect', 'diagnostics.renderSize']),
     'obs hides chat': 'body.obs-mode #chatPanel' in style,
 }

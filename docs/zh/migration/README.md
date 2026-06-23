@@ -5,8 +5,9 @@
 最新范围：
 
 - 直接全量迁移，不保留旧 Viewer 作为可运行入口；
-- 本轮只保证 `ControlPanel` 和 `StageView` 正常；
-- `ChatPanel` 只做 UI 壳和禁用态；
+- `ControlPanel` 和 `StageView` 正常；
+- `ChatPanel` 已接入本地 Server，可创建/续写 session；
+- Claude Code 通过 Server-side Orchestrator 调用，Browser 不直接接 CLI、CCR 或 API Key；
 - 当前 `public/*` 资源迁到 `assets/*`；
 - 迁移后使用 npm 命令启动新 `apps/web`。
 
@@ -23,8 +24,9 @@
 -> 迁移 assets 和 registry
 -> 迁移 Stage runtime
 -> 迁移 ControlPanel 和 StageView
--> 加 ChatPanel 禁用 UI
+-> 加 ChatPanel UI
+-> 接入 Server / Session / Claude Code Orchestrator
 -> 删除旧 Viewer 入口和旧 manifest
 ```
 
-本轮不做 Server、Session、OpenRouter、Claude Code 或可用聊天。
+历史迁移计划中的“ChatPanel 禁用态”是早期阶段描述；当前行为以 `docs/zh/apps/web/04-chat-panel.md` 和 `docs/zh/architecture/06-claude-code-orchestrator-integration.md` 为准。

@@ -59,6 +59,9 @@ export default defineConfig({
     fs: {
       allow: [repoRoot],
     },
+    proxy: {
+      '/api': 'http://127.0.0.1:4310',
+    },
   },
   build: {
     outDir: path.resolve(repoRoot, 'dist'),

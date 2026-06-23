@@ -52,16 +52,16 @@ npm run dev / npm run build
 | 浏览器 TTS | `browserSpeak()` | `packages/voice` BrowserTtsAdapter |
 | 左侧控制台 | DOM bindings in `apps/web/src/main.js` | `apps/web` ControlPanel |
 | 中央舞台 | `#stage` + `#avatar` | `apps/web` StageView |
-| 右侧面板 | disabled `ChatPanel` | future Session/Message UI |
+| 右侧面板 | `ChatPanel` + `/api/v1` REST/SSE | 后续拆到 `components/chat-panel/*` |
 | OBS/URL 参数 | `apps/web/src/main.js` | `apps/web` Compatibility Layer |
 
 ## 3. 当前技术债务
 
 - `apps/web/src/main.js` 仍同时承担 UI、渲染、资源、Voice 和状态；
 - `packages/stage` 等包目录已有壳，但 Stage runtime 尚未完全拆出；
-- Character、Actor、Agent、Session 尚未完整区分；
-- ChatPanel 只有禁用态 UI；
-- Server、Config、Session Store、Orchestrator、Provider 尚未实现。
+- Character、Actor、Agent、Session 已有第一版边界，但仍集中在 `main.js` 和文件型 store 中；
+- ChatPanel 已接入本地 Server，可创建/续写 session；
+- Server、Config、Session Store、Orchestrator、Claude Code Adapter 已有第一版，仍需组件化和测试补强。
 
 ## 4. 基线验收
 
@@ -73,6 +73,6 @@ npm run dev / npm run build
 4. VPD 可应用；
 5. 表情和嘴型可更新；
 6. OBS 模式和 URL 参数不失效；
-7. ChatPanel 可收回/展开，但不发送请求；
+7. ChatPanel 可收回/展开，sessions view 发送创建新 session，messages view 发送续写当前 session；
 8. `npm run build` 通过；
 9. `npm run check` 通过。

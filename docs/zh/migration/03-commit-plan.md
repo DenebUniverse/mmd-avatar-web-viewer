@@ -1,5 +1,7 @@
 # 提交拆分建议
 
+> 状态说明：本文是早期迁移提交拆分建议，保留用于追溯，不代表当前功能状态。当前 ChatPanel 已接入本地 Server 和 Claude Code Orchestrator；当前行为以 `docs/zh/apps/web/04-chat-panel.md` 和 `docs/zh/architecture/06-claude-code-orchestrator-integration.md` 为准。
+
 每个提交只完成一个可回滚边界。当前策略是直接迁到新架构，不保留旧 Viewer 运行入口。
 
 ```text

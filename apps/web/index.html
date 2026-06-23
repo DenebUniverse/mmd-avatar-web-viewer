@@ -18,19 +18,31 @@
           </div>
 
           <section class="card">
-            <h2>角色 / 架构</h2>
+            <h2>角色</h2>
             <label class="field-label" for="characterSelect">选择角色</label>
             <select id="characterSelect" class="select-input" aria-label="选择角色"></select>
-            <p class="hint compact">
-              默认角色是绯英。启动服务前会扫描 <code>assets/models</code>，有效 PMX/PMD 会自动进入此列表；也可用 <code>?character=qianyeBlade</code> 或 <code>?model=/assets/models/xxx/xxx.pmx</code> 直达。
-            </p>
-            <p class="hint compact">
-              当前方案：<strong>PMX 模型 + VMD 动作 + VPD 姿态 + MMDAnimationHelper</strong>。资源优先使用 manifest 显示名，额外扫描到的有效格式也会动态加载。
-            </p>
+            <p class="hint compact">默认角色是绯英。可用 <code>?character=qianyeBlade</code> 或 <code>?model=/assets/models/xxx/xxx.pmx</code> 直达。</p>
           </section>
 
           <section class="card">
-            <h2>表情 / 口型层</h2>
+            <h2>语音</h2>
+            <label class="field-label" for="voiceSelect">语音</label>
+            <select id="voiceSelect" class="select-input" aria-label="语音输出">
+              <option value="none">无</option>
+              <option value="machine">机器</option>
+            </select>
+            <p class="hint compact">选「机器」后，ChatPanel 助手输出边生成边朗读。</p>
+            <label class="field-label" for="lipSourceSelect">口型</label>
+            <select id="lipSourceSelect" class="select-input" aria-label="口型来源">
+              <option value="none">无</option>
+              <option value="user">用户</option>
+              <option value="character">角色</option>
+            </select>
+            <p class="hint compact">口型跟随：<strong>用户</strong>=麦克风声音，<strong>角色</strong>=ChatPanel 角色输出（TTS），<strong>无</strong>=保留 VMD 口型。</p>
+          </section>
+
+          <section class="card">
+            <h2>表情</h2>
             <div class="button-grid four">
               <button id="neutralBtn">默认</button>
               <button id="happyBtn">开心</button>
@@ -39,27 +51,12 @@
             </div>
             <div class="button-grid two extra-buttons">
               <button id="faceModeBtn">前端/VMD 表情</button>
-              <button id="lipModeBtn">前端/VMD 口型</button>
             </div>
-            <p class="hint compact">播放带 face/lip 的 VMD 时，建议保留 VMD 表情和口型；使用 TTS/麦克风驱动时再切回前端口型。</p>
           </section>
 
           <section class="card">
-            <h2>VMD 动作 / VPD 姿态</h2>
-            <p class="hint compact">启动服务前会扫描 <code>assets/motions</code> 与 <code>assets/poses</code>。Registry 中有显示名的资源按 registry 展示，其他有效 VMD/VPD 按文件名展示。</p>
-            <label class="field-label" for="motionSelect">选择 VMD 动作</label>
-            <select id="motionSelect" class="select-input" aria-label="选择 VMD 动作"></select>
-            <div class="button-grid two extra-buttons">
-              <button id="playSelectedMotionBtn">播放选中 VMD</button>
-              <button id="reloadManifestBtn">重新读取资源索引</button>
-            </div>
-            <label class="field-label" for="poseSelect">选择 VPD 姿态</label>
-            <select id="poseSelect" class="select-input" aria-label="选择 VPD 姿态"></select>
-            <div class="button-grid two extra-buttons">
-              <button id="applySelectedPoseBtn">应用选中 VPD</button>
-              <button id="poseBtn">VPD 默认站姿</button>
-            </div>
-            <p class="hint compact">常用动作快捷按钮：</p>
+            <h2>动作(VMD)</h2>
+            <p class="hint compact">动作：</p>
             <div class="button-grid three">
               <button id="breathBtn">呼吸</button>
               <button id="idleBtn">Idle</button>
@@ -74,27 +71,10 @@
               <button id="resetBtn">重置到呼吸</button>
               <button id="frameBtn">半身/全身</button>
             </div>
-            <p class="hint compact">
-              自动索引文件：<code>/generated/assets-registry.json</code>。把 PMX/PMD、VMD、VPD 放入 <code>assets/models</code>、<code>assets/motions</code>、<code>assets/poses</code> 后运行 <code>npm run assets:scan</code> 并重启 <code>npm run dev</code> 即可刷新列表。
-            </p>
-          </section>
-
-          <section class="card">
-            <h2>语音 / 口型</h2>
-            <textarea id="textBox">你好，开拓者。今天的直播间也准备好了。</textarea>
-            <div class="button-grid two">
-              <button id="speakBtn">浏览器 TTS</button>
-              <button id="micBtn">麦克风口型</button>
+            <p class="hint compact">姿势：</p>
+            <div class="button-grid two extra-buttons">
+              <button id="poseBtn">VPD 默认站姿</button>
             </div>
-          </section>
-
-          <section class="card">
-            <h2>OBS</h2>
-            <p class="hint compact">Browser Source：</p>
-            <code class="block-code">http://127.0.0.1:5173/?obs=1&character=hiying</code>
-            <p class="hint compact">
-              角色：<code>&character=hiying|qianyeBlade</code> · 半身：<code>&framing=bust</code> · VMD：<code>&motion=breath|idle|wave|jump|peek|shotenTime|goodTea|lovermaxHipSway</code> · 自定义：<code>&vmd=/assets/motions/local/xxx.vmd</code> · 自定义 PMX：<code>&model=/assets/models/local/xxx.pmx</code>
-            </p>
           </section>
         </div>
       </aside>
@@ -114,25 +94,18 @@
             <p class="chat-title">任务</p>
           </div>
           <div class="chat-toolbar-actions" aria-label="Chat actions">
-            <button type="button" disabled aria-label="刷新">↻</button>
-            <button type="button" disabled aria-label="设置">⚙</button>
-            <button type="button" disabled aria-label="新建">✎</button>
+            <button id="chatManageBtn" type="button" aria-label="管理会话" title="管理会话">⚙</button>
+            <button id="chatNewSessionBtn" type="button" aria-label="新建">✎</button>
           </div>
         </header>
 
         <header class="chat-toolbar chat-toolbar-detail" data-view-for="messages">
           <button id="chatBackBtn" class="chat-nav-btn" type="button" aria-label="返回任务列表">‹</button>
-          <div class="chat-thread-title">我按照 plan.md 在 docs/zh/ 下详细...</div>
-          <div class="chat-toolbar-actions" aria-label="Chat actions">
-            <button type="button" disabled aria-label="更多">...</button>
-            <button type="button" disabled aria-label="历史">↻</button>
-            <button type="button" disabled aria-label="设置">⚙</button>
-            <button type="button" disabled aria-label="新建">✎</button>
-          </div>
+          <div id="chatThreadTitle" class="chat-thread-title">任务</div>
         </header>
 
         <section class="chat-content" aria-live="polite">
-          <div class="chat-session-list" data-view-for="sessions">
+          <div id="chatSessionList" class="chat-session-list" data-view-for="sessions">
             <button class="chat-session-item" type="button" data-chat-session="migration-review">
               <span class="chat-session-name">我按照 plan.md 在 docs/zh/ 下详细写了一下...</span>
               <span class="chat-session-time">2 小时</span>
@@ -149,7 +122,20 @@
             <div class="chat-empty-mark" aria-hidden="true">⌁</div>
           </div>
 
-          <div class="chat-message-list" data-view-for="messages">
+          <div id="chatManageBar" class="chat-manage-bar visually-hidden" data-view-for="sessions">
+            <div class="chat-manage-row">
+              <button id="chatManageSelectAll" type="button">全选</button>
+              <button id="chatManageRename" type="button">重命名</button>
+              <button id="chatManageDelete" type="button">删除</button>
+              <button id="chatManageMode" type="button" title="切换删除模式">软删除</button>
+              <button id="chatManageDone" type="button">完成</button>
+            </div>
+            <label class="chat-manage-toggle">
+              <input id="chatShowDeleted" type="checkbox" /> 显示已删除
+            </label>
+          </div>
+
+          <div id="chatMessageList" class="chat-message-list" data-view-for="messages">
             <article class="chat-bubble user">
               <p>我按照 plan.md</p>
               <p>在 docs/zh/</p>
@@ -160,19 +146,19 @@
             <div class="chat-run-status">已处理 4m 11s ›</div>
             <article class="chat-bubble assistant">
               <p>审查结果：当前 02-phases.md 还不是可执行迁移计划，更像 plan.md 的阶段摘要。</p>
-              <p>本迁移版本中 ChatPanel 只展示 UI 结构，不连接 Agent。</p>
+              <p>ChatPanel 通过本地 Server 连接 Claude Code，浏览器不直接接触 CLI、CCR 或 API Key。</p>
             </article>
           </div>
         </section>
 
         <footer class="chat-composer">
-          <textarea id="chatInput" disabled placeholder="随心输入"></textarea>
+          <textarea id="chatInput" placeholder="随心输入"></textarea>
           <div class="chat-composer-bar">
-            <button id="chatAttachBtn" type="button" disabled aria-label="添加">+</button>
-            <button id="chatModeBtn" type="button" disabled>完全访问⌄</button>
-            <span class="chat-model-label">5.5⌄</span>
-            <button id="chatSendBtn" type="button" disabled aria-label="发送">↑</button>
-            <button id="chatStopBtn" type="button" disabled class="visually-hidden">Stop</button>
+            <button id="chatModeBtn" type="button">自动判断⌄</button>
+            <span id="chatStatusText" class="chat-model-label">连接中</span>
+            <button id="chatMicBtn" type="button" aria-label="语音输入" title="语音输入">🎤</button>
+            <button id="chatSendBtn" type="button" aria-label="发送">↑</button>
+            <button id="chatStopBtn" type="button" class="visually-hidden">Stop</button>
           </div>
         </footer>
       </aside>

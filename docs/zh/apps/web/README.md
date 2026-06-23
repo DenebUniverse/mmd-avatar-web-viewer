@@ -44,3 +44,11 @@ apps/web/src/
 - `src/main.js` 中 DOM、选择框、状态、URL 参数和 `bootstrap()` 部分。
 
 详见 [迁移说明](./03-migration.md)。
+
+## 文档
+
+- [UI 与状态](./01-ui-and-state.md)
+- [Protocol 客户端](./02-protocol-client.md)
+- [迁移说明](./03-migration.md)
+- [ChatPanel 与 Agent 接入](./04-chat-panel.md)
+- [语音聊天功能实现方案](./05-voice-chat.md)

@@ -5,8 +5,19 @@ dist/
 
 package-lock.json
 
+config/agentstage.local.yaml
+config/*.local.yaml
+config/*.local.json
+config/*.local.env
+config/secrets.*
+data/
+runtime-data/
+.agentstage/
+
 public/resource_manifest.json
 dist/resource_manifest.json
+packages/experimental/
+scripts/diagnostics/
 
 .DS_Store
 Thumbs.db

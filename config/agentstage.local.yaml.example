@@ -1,0 +1,13 @@
+agent:
+  workspace: /absolute/path/to/agentstage-web
+
+claude_code:
+  command: /opt/homebrew/bin/claude
+
+ccr:
+  enabled: true
+  autostart: true
+  required: false
+
+logging:
+  level: debug

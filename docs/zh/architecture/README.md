@@ -9,6 +9,7 @@
 - [模块边界与依赖规则](./03-module-boundaries.md)
 - [关键运行流程](./04-runtime-flows.md)
 - [架构决策记录](./05-decisions.md)
+- [Claude Code Orchestrator 接入方案](./06-claude-code-orchestrator-integration.md)
 
 ## 总体原则
 

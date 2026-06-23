@@ -1,5 +1,7 @@
 # 风险与回滚
 
+> 状态说明：本文包含早期禁用态 ChatPanel 的风险项，保留用于追溯。当前 ChatPanel 已接入本地 Server 和 Claude Code Orchestrator；当前行为以 `docs/zh/apps/web/04-chat-panel.md`、`docs/zh/apps/server/01-api-and-sse.md` 和 `docs/zh/architecture/06-claude-code-orchestrator-integration.md` 为准。
+
 ## 1. Stage 视觉回归
 
 风险：材质、透明度、骨骼、helper 注册、camera 或 resize 行为变化。
